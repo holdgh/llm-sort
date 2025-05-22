@@ -4,6 +4,7 @@ import pytest
 import llm
 from llm.cli import cli
 
+
 # A fake response class to mimic LLM API responses.
 class FakeResponse:
     def __init__(self, text):
@@ -11,6 +12,7 @@ class FakeResponse:
 
     def text(self):
         return self._text
+
 
 # A fake LLM model that “compares” two lines by lexicographical order.
 # It parses the prompt to extract the two lines (from "Line A:" and "Line B:")
@@ -33,6 +35,7 @@ class FakeModel:
         else:
             return FakeResponse("Line B")
 
+
 # ----------------------- Tests -----------------------
 
 def test_sort_allpair(monkeypatch):
@@ -51,6 +54,7 @@ def test_sort_allpair(monkeypatch):
     assert result.exit_code == 0, result.output
     assert result.output == expected
 
+
 def test_sort_sorting(monkeypatch):
     monkeypatch.setattr(llm, "get_model", lambda model=None: FakeModel())
     runner = CliRunner()
@@ -64,6 +68,7 @@ def test_sort_sorting(monkeypatch):
     expected = "alpha\nbravo\ncharlie\ndelta\n"
     assert result.exit_code == 0, result.output
     assert result.output == expected
+
 
 def test_sort_sliding(monkeypatch):
     monkeypatch.setattr(llm, "get_model", lambda model=None: FakeModel())
@@ -79,6 +84,7 @@ def test_sort_sliding(monkeypatch):
     assert result.exit_code == 0, result.output
     assert result.output == expected
 
+
 def test_sort_top_k(monkeypatch):
     monkeypatch.setattr(llm, "get_model", lambda model=None: FakeModel())
     runner = CliRunner()
@@ -92,6 +98,7 @@ def test_sort_top_k(monkeypatch):
     expected = "alpha\nbravo\n"
     assert result.exit_code == 0, result.output
     assert result.output == expected
+
 
 def test_sort_file_input(monkeypatch, tmp_path):
     monkeypatch.setattr(llm, "get_model", lambda model=None: FakeModel())
@@ -108,6 +115,7 @@ def test_sort_file_input(monkeypatch, tmp_path):
     expected = "bird\ncat\ndog\n"
     assert result.exit_code == 0, result.output
     assert result.output == expected
+
 
 def test_sort_no_input(monkeypatch):
     monkeypatch.setattr(llm, "get_model", lambda model=None: FakeModel())

@@ -4,6 +4,7 @@
 Ranking techniques are based on [this](https://arxiv.org/abs/2306.17563) paper.
 
 ## Installation
+**python版本为3.9**
 
 Install this plugin in the same environment as LLM.
 ```bash
