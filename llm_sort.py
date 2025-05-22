@@ -153,7 +153,7 @@ def register_commands(cli):
             # PRP-Sliding-K: Perform K sliding-window passes (similar to bubble sort).
             sorted_docs = documents[:]
             n = len(sorted_docs)
-            for _ in range(top_k or n):  # range(top_k or n)表示--当top_k为0时，相当于range(n)；当top_k非0时，相当于range(top_k)。这里执行top_k次“冒泡”，是考虑了大模型响应的随机性，多次执行利于稳定。
+            for _ in range(top_k or n):  # range(top_k or n)表示--当top_k为0时，相当于range(n)；当top_k非0时，相当于range(top_k)。这里执行top_k次“冒泡”，每次仅得到一个批次的最大值，而其后并没有按照相关性大小关系排序，因此执行top_k次可以得到前top_k个相关文档【剩余文档的相关性并未保持顺序关系】。
                 # Traverse from right to left.
                 for i in reversed(range(n - 1)):  # i遍历n-2,n-3,n-4,...,0
                     decision = pairwise_decision(query, sorted_docs[i]["content"], sorted_docs[i + 1]["content"])
